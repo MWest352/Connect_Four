@@ -27,7 +27,7 @@ class Board
 
     rows.each do |r|
       7.times do
-        r << 0
+        r << "\u2687"
       end
     end
     @rows = rows
@@ -39,10 +39,9 @@ class Board
   end
 
   def position(row, column)
-    puts @table[row, column]
+    @table[row, column]
   end
 end
 
 # board = Board.new
 # board.print_board
-# board.position(5, 5)

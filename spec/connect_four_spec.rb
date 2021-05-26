@@ -74,15 +74,7 @@ describe Game do
     end
   end
 
-  describe '#drop_checker' do
-    subject(:drop_checker) { described_class.new }
-
-    context 'when placing checker' do
-      it 'should change space on board' do
-
-      end
-    end
-  end
+  
 end
 
 # Drop checker should take in player input and place that as 'column' in board.position

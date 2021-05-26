@@ -35,13 +35,12 @@ class Game
 
   def player_input
     puts "Pick a Column"
-    loop do
-      user_input = gets.chomp
-      verified_number = verify_input(user_input.to_i) if user_input.match?(/^\d+$/)
-      return verified_number if verified_number
+    user_input = gets.chomp
+    verified_number = verify_input(user_input.to_i) if user_input.match?(/^\d+$/)
+    return verified_number if verified_number
 
-      puts "Entry Error: Please pick a number, 1 through 7!"
-    end
+    puts "Entry Error: Please pick a number, 1 through 7!"
+    player_input
   end
 
   def verify_input(input)
@@ -57,23 +56,32 @@ class Game
   end
 
   def display_board
-    board.print_board
+    @board.print_board
   end
 
-  def drop_checker
-    @board = @board.gsub(/"O"/, "#{@current_player.color}")
+  def input_shift
+    player_input - 1
+  end
+
+  def checker
+    @checker = @current_player.color
+  end
+
+  def board_position
+    board.position(@bottom_position, input_shift)
   end
 
   def check_empty
-    if board.position(@bottom_position, player_input - 1) == 'O'
-      drop_checker
+    if board_position == "\u2687"
+      @board = @board.gsub(/"#{board_position}"/, "#{@checker}")
+      display_board
     else
       @bottom_position -= 1
       check_empty
     end
   end
-
 end
 
 game = Game.new
+game.display_board
 game.check_empty
