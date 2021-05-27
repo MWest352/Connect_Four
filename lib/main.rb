@@ -72,9 +72,11 @@ class Game
   end
 
   def check_empty
-    if board_position == "\u2687"
-      @board = @board.gsub(/"#{board_position}"/, "#{@checker}")
+    placement = board_position
+    if placement == "\u2687"
+      placement = @checker
       display_board
+
     else
       @bottom_position -= 1
       check_empty
@@ -82,6 +84,6 @@ class Game
   end
 end
 
-game = Game.new
-game.display_board
-game.check_empty
+# game = Game.new
+# game.display_board
+# game.check_empty
