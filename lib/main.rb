@@ -31,6 +31,7 @@ class Game
     @player_two = Player.new("Player 2", "\u2689".colorize(:color => :red))
     @current_player = @player_one
     @bottom_position = 5
+    @checker = @current_player.color
   end
 
   def player_input
@@ -63,20 +64,17 @@ class Game
     player_input - 1
   end
 
-  def checker
-    @checker = @current_player.color
-  end
-
   def board_position
     board.position(@bottom_position, input_shift)
   end
 
   def check_empty
     placement = board_position
+    puts placement
     if placement == "\u2687"
       placement = @checker
+      puts placement
       display_board
-
     else
       @bottom_position -= 1
       check_empty
@@ -84,6 +82,6 @@ class Game
   end
 end
 
-# game = Game.new
-# game.display_board
-# game.check_empty
+ game = Game.new
+ game.display_board
+ game.check_empty

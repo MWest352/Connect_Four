@@ -13,6 +13,7 @@ class Board
 
   def initialize
     generate_board
+    make_board
   end
 
   def headers
@@ -33,8 +34,11 @@ class Board
     @rows = rows
   end
 
-  def print_board
+  def make_board
     @table = TTY::Table.new headers, @rows
+  end
+
+  def print_board
     puts @table.render(:unicode, alignment: [:center]).colorize(:color => :green)
   end
 
@@ -45,4 +49,3 @@ end
 
 #  board = Board.new
 #  board.print_board
-
