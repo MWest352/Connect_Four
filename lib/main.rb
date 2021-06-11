@@ -69,19 +69,20 @@ class Game
   end
 
   def check_empty
-    placement = board_position
-    puts placement
-    if placement == "\u2687"
-      placement = @checker
-      puts placement
-      display_board
+    if board_position == "\u2687"
+      puts "true"
+      drop_checker
     else
       @bottom_position -= 1
       check_empty
     end
   end
+
+  def drop_checker
+    puts "checker dropped"
+  end
 end
 
- game = Game.new
- game.display_board
- game.check_empty
+#  game = Game.new
+#  game.display_board
+#  game.check_empty

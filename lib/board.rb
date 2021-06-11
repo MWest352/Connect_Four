@@ -1,4 +1,4 @@
-# frozen_string_literal: true
+# frozen_string_literal: false
 
 require 'tty-table'
 require 'colorize'
@@ -8,12 +8,11 @@ require 'colorize'
 
 # Board Class
 class Board
-  attr_reader :board
-  attr_accessor :rows
+  attr_accessor :rows, :board
 
   def initialize
     generate_board
-    make_board
+    print_board
   end
 
   def headers
@@ -34,18 +33,27 @@ class Board
     @rows = rows
   end
 
-  def make_board
-    @table = TTY::Table.new headers, @rows
-  end
-
   def print_board
+    @table = TTY::Table.new headers, @rows
     puts @table.render(:unicode, alignment: [:center]).colorize(:color => :green)
   end
 
   def position(row, column)
-    @table[row, column]
+    @rows[row, column]
   end
+
+  def drop_checker(row, column, x)
+    @rows[row][column] = "#{x}"
+  end
+  
 end
 
 #  board = Board.new
+#  board.print_board
+#  board.drop_checker(5, 5, "y")
+#  puts board.position(5, 5)
+#  board.print_board
+#  board.drop_checker(3, 3, "u")
+#  board.print_board
+#  board.drop_checker(4, 5, "j")
 #  board.print_board
