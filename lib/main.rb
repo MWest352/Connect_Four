@@ -35,7 +35,6 @@ class Game
   end
 
   def player_input
-    puts "#{@current_player.name} Pick a Column"
     column_number = gets.to_i
     if column_number.between?(1, 7)
       @column = column_number - 1
@@ -62,13 +61,9 @@ class Game
     board.position(@bottom_position, @column)
   end
 
-  def row(row)
-    puts board.row(row)
-  end
-
   def check_empty
-    until board_position == "\u2687" do 
-       @bottom_position -= 1
+    until board_position == "\u2687"
+      @bottom_position -= 1
     end
     drop_checker
     @current_player.choice << [@bottom_position, @column]
@@ -82,6 +77,7 @@ class Game
 
   def run_game
     until win == true
+      puts "#{@current_player.name} Pick a Column"
       player_input
       check_empty
       switch_player
@@ -92,7 +88,8 @@ class Game
   #   x = @bottom_position
   #   puts "#{x}"
   #   y = @column
-  #   if @current_player.choice = [[x, y], [x - 1, y + 1], [x - 2, y + 2], [x - 3, y + 3]]
+  #   if @current_player.choice =
+  #        [[x, y], [x - 1, y + 1], [x - 2, y + 2], [x - 3, y + 3]]
   #     pos_diag_win = true
   #   else
   #     pos_diag_win = false
@@ -108,6 +105,6 @@ class Game
   end
 end
 
-#  game = Game.new
-#  game.run_game
+ game = Game.new
+ game.run_game
 

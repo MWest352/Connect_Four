@@ -6,6 +6,7 @@ require_relative '../lib/board.rb'
 require_relative '../lib/main.rb'
 
 describe Game do
+
   describe '#player_input' do
 
     subject(:game_input) { described_class.new }
@@ -13,13 +14,13 @@ describe Game do
     context 'when input is between accepted paramaters' do
       before do
         valid_input = '3'
-        allow(game_input).to receive(:gets).and_return(valid_input)
+        allow(subject).to receive(:gets).and_return(valid_input)
       end
 
       it 'stops loop and does not display error message' do
         error_message = "Entry Error: Please pick a number, 1 through 7!"
-        expect(game_input).not_to receive(:puts).with(error_message)
-        game_input.player_input
+        expect(subject).not_to receive(:puts).with(error_message)
+        subject.player_input
       end
     end
 
@@ -27,15 +28,13 @@ describe Game do
       before do
         invalid_input = 'x'
         valid_input = '7'
-        allow(game_input).to receive(:gets).and_return(invalid_input, valid_input)
+        allow(subject).to receive(:gets).and_return(invalid_input, valid_input)
       end
 
       it 'completes loop and displays error message once' do
-        prompt = "#{@current_player.name} Pick a Column"
         error_message = "Entry Error: Please pick a number, 1 through 7!"
-        expect(game_input).to receive(:puts).with(prompt).once
-        expect(game_input).to receive(:puts).with(error_message).once
-        game_input.player_input
+        expect(subject).to receive(:puts).with(error_message).once
+        subject.player_input
       end
     end
   end
