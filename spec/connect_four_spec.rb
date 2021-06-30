@@ -31,50 +31,14 @@ describe Game do
       end
 
       it 'completes loop and displays error message once' do
+        prompt = "#{@current_player.name} Pick a Column"
         error_message = "Entry Error: Please pick a number, 1 through 7!"
+        expect(game_input).to receive(:puts).with(prompt).once
         expect(game_input).to receive(:puts).with(error_message).once
         game_input.player_input
       end
     end
-
-    context 'when user inputs three incorrect answers (number outside of paramaters, symbol, letter) then valid input' do
-      before do
-        num_out_param = '10'
-        symb = '#'
-        letter = 'a'
-        valid_input = '1'
-        allow(game_input).to receive(:gets).and_return(num_out_param, symb, letter, valid_input)
-      end
-
-      it 'completes loop and displays error message three times' do
-        error_message = "Entry Error: Please pick a number, 1 through 7!"
-        expect(game_input).to receive(:puts).with(error_message).exactly(3).times
-        game_input.player_input
-      end
-    end
   end
-
-  describe '#verify_input' do
-    subject(:verify_game) { described_class.new }
-
-    context 'when given a valid input' do
-      it 'returns valid input' do
-        user_input = 4
-        verified_input = verify_game.verify_input(user_input)
-        expect(verified_input).to eq(4)
-      end
-    end
-
-    context 'when given an invalid input' do
-      it 'returns nil' do
-        user_input = 27
-        verified_input = verify_game.verify_input(user_input)
-        expect(verified_input).to be_nil
-      end
-    end
-  end
-
-  
 end
 
 # Drop checker should take in player input and place that as 'column' in board.position

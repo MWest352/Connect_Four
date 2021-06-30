@@ -35,11 +35,11 @@ class Board
 
   def print_board
     @table = TTY::Table.new headers, @rows
-    puts @table.render(:unicode, alignment: [:center]).colorize(:color => :green)
+    puts @table.render(:unicode, alignment: [:center])
   end
 
   def position(row, column)
-    @rows[row, column]
+    @table[row, column]
   end
 
   def drop_checker(row, column, x)

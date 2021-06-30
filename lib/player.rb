@@ -7,11 +7,12 @@
 
 # Player Class
 class Player
-  attr_accessor :name, :color
+  attr_accessor :name, :color, :choice
 
   def initialize(name, color)
     @name = name
     @color = color
+    @choice = []
   end
   
 end

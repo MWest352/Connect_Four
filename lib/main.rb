@@ -21,6 +21,7 @@ require_relative 'player.rb'
 require_relative 'board.rb'
 require 'colorize'
 require 'tty-table'
+require 'byebug'
 
 # Game Class
 class Game
@@ -31,24 +32,21 @@ class Game
     @player_two = Player.new("Player 2", "\u2689".colorize(:color => :red))
     @current_player = @player_one
     @bottom_position = 5
-    @checker = @current_player.color
   end
 
   def player_input
-    puts "Pick a Column"
-    user_input = gets.chomp
-    verified_number = verify_input(user_input.to_i) if user_input.match?(/^\d+$/)
-    return verified_number if verified_number
-
-    puts "Entry Error: Please pick a number, 1 through 7!"
-    player_input
-  end
-
-  def verify_input(input)
-    return input if input.between?(1, 7)
+    puts "#{@current_player.name} Pick a Column"
+    column_number = gets.to_i
+    if column_number.between?(1, 7)
+      @column = column_number - 1
+    else
+      puts "Entry Error: Please pick a number, 1 through 7!"
+      player_input
+    end
   end
 
   def switch_player
+    @bottom_position = 5
     if @current_player == @player_one
       @current_player = @player_two
     elsif @current_player == @player_two
@@ -60,29 +58,56 @@ class Game
     @board.print_board
   end
 
-  def input_shift
-    player_input - 1
+  def board_position
+    board.position(@bottom_position, @column)
   end
 
-  def board_position
-    board.position(@bottom_position, input_shift)
+  def row(row)
+    puts board.row(row)
   end
 
   def check_empty
-    if board_position == "\u2687"
-      puts "true"
-      drop_checker
-    else
-      @bottom_position -= 1
-      check_empty
+    until board_position == "\u2687" do 
+       @bottom_position -= 1
     end
+    drop_checker
+    @current_player.choice << [@bottom_position, @column]
+    puts "#{@current_player.choice}" 
   end
 
   def drop_checker
-    puts "checker dropped"
+    board.drop_checker(@bottom_position, @column, @current_player.color)
+    board.print_board
+  end
+
+  def run_game
+    until win == true
+      player_input
+      check_empty
+      switch_player
+    end
+  end
+
+  # def pos_diag_win
+  #   x = @bottom_position
+  #   puts "#{x}"
+  #   y = @column
+  #   if @current_player.choice = [[x, y], [x - 1, y + 1], [x - 2, y + 2], [x - 3, y + 3]]
+  #     pos_diag_win = true
+  #   else
+  #     pos_diag_win = false
+  #   end
+  # end
+  
+  def win
+    # if pos_diag_win == true
+    #   win = true
+    # else 
+    #   win = false
+    # end
   end
 end
 
 #  game = Game.new
-#  game.display_board
-#  game.check_empty
+#  game.run_game
+
