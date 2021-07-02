@@ -62,12 +62,18 @@ class Game
   end
 
   def check_empty
-    until board_position == "\u2687"
-      @bottom_position -= 1
-    end
+    move_up until board_position == "\u2687"
     drop_checker
+    current_player_array
+  end
+
+  def move_up
+    @bottom_position -= 1
+  end
+
+  def current_player_array
     @current_player.choice << [@bottom_position, @column]
-    puts "#{@current_player.choice}" 
+    puts "#{@current_player.choice}"
   end
 
   def drop_checker

@@ -7,34 +7,42 @@ require_relative '../lib/main.rb'
 
 describe Game do
 
+  subject(:game) { described_class.new }
+
   describe '#player_input' do
-
-    subject(:game_input) { described_class.new }
-
-    context 'when input is between accepted paramaters' do
+    context 'When input is between accepted paramaters' do
       before do
         valid_input = '3'
         allow(subject).to receive(:gets).and_return(valid_input)
       end
 
-      it 'stops loop and does not display error message' do
+      it 'Stops loop and does not display error message' do
         error_message = "Entry Error: Please pick a number, 1 through 7!"
         expect(subject).not_to receive(:puts).with(error_message)
         subject.player_input
       end
     end
 
-    context 'when user inputs an incorrect value once, then a valid input' do
+    context 'When user inputs an incorrect value once, then a valid input' do
       before do
         invalid_input = 'x'
         valid_input = '7'
         allow(subject).to receive(:gets).and_return(invalid_input, valid_input)
       end
 
-      it 'completes loop and displays error message once' do
+      it 'Completes loop and displays error message once' do
         error_message = "Entry Error: Please pick a number, 1 through 7!"
         expect(subject).to receive(:puts).with(error_message).once
         subject.player_input
+      end
+    end
+  end
+
+  describe '#move_up' do
+    context 'When bottom position is 5' do
+      it 'Returns 4' do
+        @bottom_position = 5
+        expect(game.move_up).to eq(4)
       end
     end
   end
