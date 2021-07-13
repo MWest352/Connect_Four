@@ -27,11 +27,12 @@ require 'byebug'
 class Game
   attr_accessor :board
   def initialize
-    @board = Board.new
+    #@board = Board.new
     @player_one = Player.new("Player 1", "\u2689".colorize(:color => :blue))
     @player_two = Player.new("Player 2", "\u2689".colorize(:color => :red))
     @current_player = @player_one
     @bottom_position = 5
+    @turn = 0
   end
 
   def player_input
@@ -64,16 +65,26 @@ class Game
   def check_empty
     move_up until board_position == "\u2687"
     drop_checker
-    current_player_array
+    make_player_array
   end
 
   def move_up
     @bottom_position -= 1
+    @bottom_position >= 0 ? @bottom_position : try_again
   end
 
-  def current_player_array
+  def try_again
+    puts "There are no more spaces in that row, Please try again."
+    @bottom_position = 5
+    player_input
+  end
+
+  def make_player_array
     @current_player.choice << [@bottom_position, @column]
-    puts "#{@current_player.choice}"
+  end
+
+  def player_array
+    @current_player.choice
   end
 
   def drop_checker
@@ -82,35 +93,65 @@ class Game
   end
 
   def run_game
-    until win == true
+    if @turn.zero?
       puts "#{@current_player.name} Pick a Column"
       player_input
       check_empty
-      switch_player
+      @turn += 1
+      run_game
+    else
+      until win == true
+        switch_player
+        puts "#{@current_player.name} Pick a Column"
+        player_input
+        check_empty
+      end
+      game_over
     end
   end
 
-  # def pos_diag_win
-  #   x = @bottom_position
-  #   puts "#{x}"
-  #   y = @column
-  #   if @current_player.choice =
-  #        [[x, y], [x - 1, y + 1], [x - 2, y + 2], [x - 3, y + 3]]
-  #     pos_diag_win = true
-  #   else
-  #     pos_diag_win = false
-  #   end
-  # end
-  
+  def vertical_win
+    x = @bottom_position
+    y = @column
+    vert_match = [[x, y], [x + 1, y], [x + 2, y], [x + 3, y]]
+    vert_match.all? { |e| player_array.include?(e) }
+  end
+
+  def diagonal_win
+    x = @bottom_position
+    y = @column
+    diag_match1 = [[x, y], [x - 1, y + 1], [x - 2, y + 2], [x - 3, y + 3]]
+    diag_match2 = [[x, y], [x + 1, y - 1], [x + 2, y - 2], [x + 3, y - 3]]
+    diag_match1.all? { |e| player_array.include?(e) } ||
+    diag_match2.all? { |e| player_array.include?(e) }
+  end
+
+  def horizontal_win
+    x = @bottom_position
+    y = @column
+    horiz_match1 = [[x, y], [x, y - 1], [x, y - 2], [x, y - 3]]
+    horiz_match2 = [[x, y], [x, y + 1], [x, y + 2], [x, y + 3]]
+    horiz_match1.all? { |e| player_array.include?(e) } ||
+    horiz_match2.all? { |e| player_array.include?(e) }
+  end
+
   def win
-    # if pos_diag_win == true
-    #   win = true
-    # else 
-    #   win = false
-    # end
+    vertical_win == true ||
+    diagonal_win == true ||
+    horizontal_win == true
+  end
+
+  def game_over
+    puts "Congradulations #{@current_player.name}, You've won! Play again? (y/n)"
+    answer  = gets.chomp.downcase
+    answer == "y" ? new_game : exit
+  end
+
+  def new_game
+    game = Game.new
+    game.run_game
   end
 end
 
- game = Game.new
- game.run_game
-
+#  game = Game.new
+#  game.run_game

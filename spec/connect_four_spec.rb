@@ -4,6 +4,7 @@
 
 require_relative '../lib/board.rb'
 require_relative '../lib/main.rb'
+require 'byebug'
 
 describe Game do
 
@@ -44,6 +45,22 @@ describe Game do
         @bottom_position = 5
         expect(game.move_up).to eq(4)
       end
+    end
+  end
+
+  describe '#vertical_win' do
+    context 'when coordinates match' do
+      let(:@bottom_position) { 1 }
+      let(:@column) { 0 }
+      it 'returns true' do
+      player_array = [[5, 0], [5, 4], [4, 0], [5, 1], [3, 0], [2, 0]]
+        allow(game.vertical_win).to receive(player_array).and_return true
+      end
+    context 'when coordinates do not match' do
+      it 'returns false' do
+        #expect(game.vertical_win).to be false
+      end
+    end
     end
   end
 end
