@@ -50,24 +50,62 @@ describe Game do
 
   describe '#vertical_win' do
     context 'when coordinates match' do
-      let(:@bottom_position) { 1 }
-      let(:@column) { 0 }
       it 'returns true' do
-      player_array = [[5, 0], [5, 4], [4, 0], [5, 1], [3, 0], [2, 0]]
-        allow(game.vertical_win).to receive(player_array).and_return true
-      end
-    context 'when coordinates do not match' do
-      it 'returns false' do
-        #expect(game.vertical_win).to be false
+        bottom_position = 2
+        column = 0
+        player_array = [[5, 0], [4, 0], [3, 0], [2, 0]] 
+        expect(game.vertical_win(bottom_position, column, player_array)).to be true
       end
     end
+
+    context 'when coordinates do not match' do
+      it 'returns false' do
+        bottom_position = 2
+        column = 0
+        player_array = []
+        expect(game.vertical_win(bottom_position, column, player_array)).to be false
+      end
+    end
+  end
+
+  describe '#diagonal_win1' do
+    context 'when coordinates match' do
+      it 'returns true' do
+        bottom_position = 2
+        column = 3
+        player_array = [[5, 0], [4, 1], [4, 2], [3, 2], [4, 3], [2, 3]] 
+        expect(game.diagonal_win1(bottom_position, column, player_array)).to be true
+      end
+    end
+
+    context 'when coordinates do not match' do
+      it 'returns false' do
+        bottom_position = 2
+        column = 0
+        player_array = []
+        expect(game.diagonal_win1(bottom_position, column, player_array)).to be false
+      end
+    end
+  end
+
+  describe '#diagonal_win2' do
+    context 'when coordinates match' do
+      it 'returns true' do
+        bottom_position = 2
+        column = 0
+        player_array = [[5, 1], [5, 3], [4, 2], [3, 1], [3, 0], [2, 0]] 
+        expect(game.diagonal_win2(bottom_position, column, player_array)).to be true
+      end
+    end
+
+    context 'when coordinates do not match' do
+      it 'returns false' do
+        bottom_position = 2
+        column = 0
+        player_array = []
+        expect(game.diagonal_win2(bottom_position, column, player_array)).to be false
+      end
     end
   end
 end
-
-# Drop checker should take in player input and place that as 'column' in board.position
-# The other coordinate should be the bottom most position (5) and check if empy.
-# If empty  (if 'O'), replace with player symbol '0'
-# If not empty, do -1, recheck for empty and loop -1 till empty or =1
-# if row is full print 'row full' error.  
 
