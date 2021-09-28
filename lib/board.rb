@@ -47,13 +47,3 @@ class Board
   end
   
 end
-
-#  board = Board.new
-#  board.print_board
-#  board.drop_checker(5, 5, "y")
-#  puts board.position(5, 5)
-#  board.print_board
-#  board.drop_checker(3, 3, "u")
-#  board.print_board
-#  board.drop_checker(4, 5, "j")
-#  board.print_board

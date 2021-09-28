@@ -13,7 +13,7 @@ require 'byebug'
 class Game
   attr_accessor :board
   def initialize
-    # @board = Board.new
+    @board = Board.new
     @player_one = Player.new("Player 1", "\u2689".colorize(:color => :blue))
     @player_two = Player.new("Player 2", "\u2689".colorize(:color => :red))
     @current_player = @player_one
@@ -138,5 +138,5 @@ class Game
   end
 end
 
-#  game = Game.new
-#  game.run_game
+game = Game.new
+game.run_game
