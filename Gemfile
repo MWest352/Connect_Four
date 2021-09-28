@@ -7,4 +7,4 @@ group :connect_four_plugins do
   gem 'tty-table', '~> 0.8.0'
   gem 'byebug', '~> 11.1', '>= 11.1.3'
   gem 'rspec', '3.10.0'
-end
+end 
