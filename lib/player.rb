@@ -12,5 +12,4 @@ class Player
     @color = color
     @choice = []
   end
-  
 end
